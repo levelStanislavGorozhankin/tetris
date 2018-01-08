@@ -99,6 +99,8 @@ namespace Tetris
                 //_key = Console.ReadKey(true);
                 //while (Console.KeyAvailable == false)
                 //{
+
+
                     PrintingField(field);
 
                     PrintingTechnicalInformation(FiguresArray[figureNumber]);
