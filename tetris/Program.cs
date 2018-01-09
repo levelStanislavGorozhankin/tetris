@@ -10,7 +10,6 @@ using System.Threading;
 
 namespace Tetris
 {
-    
     class Program
     {
         const int FieldX = 24;
@@ -26,47 +25,54 @@ namespace Tetris
             int FigureNumber = rnd.Next(0, FiguresArray.Length);
 
             field.PasteFigureInField(FiguresArray[FigureNumber]);
+
             Game(FiguresArray, field, FigureNumber);
-        }
+            
+        }     
 
         static public void Game(Figures[] FiguresArray, Field field, int figureNumber)
         {
             ConsoleKeyInfo _key;
             Console.CursorVisible = false;
+
+
             while (true)
             {
                 //_key = Console.ReadKey(true);
-                //while (Console.KeyAvailable == false)
-                //{
+                while (Console.KeyAvailable == false)
+                {
+            //1        _key = Console.ReadKey(true);
                     PrintingField(field);
 
                     PrintingTechnicalInformation(FiguresArray[figureNumber]);
-
+                       Thread.Sleep(1000);
+                    Down(field, FiguresArray, ref figureNumber);
+                    
+                }
                 _key = Console.ReadKey(true);
 
-                    if (_key.Key == ConsoleKey.UpArrow)
-                    {
-                        Rotate(field, FiguresArray[figureNumber]);
-                        continue;
-                    }
+                if (_key.Key == ConsoleKey.UpArrow)
+                {
+                    Rotate(field, FiguresArray[figureNumber]);
+                    PrintingField(field);
+                }
 
-                    if (_key.Key == ConsoleKey.LeftArrow)
-                    {
-                        Left(field, FiguresArray[figureNumber]);
-                        continue;
-                    }
+                if (_key.Key == ConsoleKey.LeftArrow)
+                {
+                    Left(field, FiguresArray[figureNumber]);
+                    PrintingField(field);
+                }
 
-                    if (_key.Key == ConsoleKey.RightArrow)
-                    {
-                        Right(field, FiguresArray[figureNumber]);
-                        continue;
-                    }
+                if (_key.Key == ConsoleKey.RightArrow)
+                {
+                    Right(field, FiguresArray[figureNumber]);
+                    PrintingField(field);
+                }
 
-                    if (_key.Key == ConsoleKey.DownArrow)
-                    {
-                        Down(field, FiguresArray, ref figureNumber);
-                    }
-                ////}
+                if (_key.Key == ConsoleKey.DownArrow)
+                {
+                    Down(field, FiguresArray, ref figureNumber);
+                }
             }
         }
 
@@ -110,30 +116,30 @@ namespace Tetris
             {
                 field.DeleteFigureFromField(figure);
                 figure.Right();
-                field.PasteFigureInField(figure);
+                field.PasteFigureInField(figure); 
             }
         }
 
-        static public void Down(Field field, Figures[] figuresArray, ref int figureNumber)
+        static void Down(Field field, Figures[] figuresArray, ref int figureNumber)
         {
             Random rnd = new Random();
             //do
             //{
-                if (field.TestBottoming(figuresArray[figureNumber]))
-                {
-                    field.FillFieldWithBlocks(figuresArray[figureNumber]);
-                    ResetFigures(figuresArray);
-                    figureNumber = rnd.Next(0, figuresArray.Length);
-                    field.PasteFigureInField(figuresArray[figureNumber]);
-                    //break;
-                }
-                else
-                {
-                    field.DeleteFigureFromField(figuresArray[figureNumber]);
-                    figuresArray[figureNumber].Down();
-                    field.PasteFigureInField(figuresArray[figureNumber]);
-                }
-                PrintingField(field);
+            if (field.TestBottoming(figuresArray[figureNumber]))
+            {
+                field.FillFieldWithBlocks(figuresArray[figureNumber]);
+                ResetFigures(figuresArray);
+                figureNumber = rnd.Next(0, figuresArray.Length);
+                field.PasteFigureInField(figuresArray[figureNumber]);
+                //break;
+            }
+            else
+            {
+                field.DeleteFigureFromField(figuresArray[figureNumber]);
+                figuresArray[figureNumber].Down();
+                field.PasteFigureInField(figuresArray[figureNumber]);
+            }
+            PrintingField(field);
             //} while (true);
         }
 
