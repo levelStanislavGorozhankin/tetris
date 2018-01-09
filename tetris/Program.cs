@@ -14,69 +14,56 @@ namespace Tetris
     {
         const int FieldX = 24;
         const int FieldY = 15;
+        static Figures[] FiguresArray = new Figures[7];
+        static Field field = new Field(4, FieldX, FieldY);
+        static int FigureNumber;
 
         public static void Main()
         {
-            Field field = new Field(4, FieldX, FieldY);
-            Figures[] FiguresArray = new Figures[7];
             Random rnd = new Random();
-
-            ResetFigures(FiguresArray);
-            int FigureNumber = rnd.Next(0, FiguresArray.Length);
-
+            FigureNumber = rnd.Next(0, FiguresArray.Length);
+            ResetFigures();
             field.PasteFigureInField(FiguresArray[FigureNumber]);
-
-            Game(FiguresArray, field, FigureNumber);
-            
+            Game();
         }     
 
-        static public void Game(Figures[] FiguresArray, Field field, int figureNumber)
+        static public void Game()
         {
             ConsoleKeyInfo _key;
             Console.CursorVisible = false;
 
+            TimerCallback tm = new TimerCallback(Down);
+            TimerCallback tm2 = new TimerCallback(PrintingField);
+            Timer timer = new Timer(tm, null, 0, 1000);
+            Timer timer2 = new Timer(tm2, null, 0, 100);
 
             while (true)
             {
-                //_key = Console.ReadKey(true);
-                while (Console.KeyAvailable == false)
-                {
-            //1        _key = Console.ReadKey(true);
-                    PrintingField(field);
-
-                    PrintingTechnicalInformation(FiguresArray[figureNumber]);
-                       Thread.Sleep(1000);
-                    Down(field, FiguresArray, ref figureNumber);
-                    
-                }
                 _key = Console.ReadKey(true);
 
                 if (_key.Key == ConsoleKey.UpArrow)
                 {
-                    Rotate(field, FiguresArray[figureNumber]);
-                    PrintingField(field);
+                    Rotate(FiguresArray[FigureNumber]);
                 }
 
                 if (_key.Key == ConsoleKey.LeftArrow)
                 {
-                    Left(field, FiguresArray[figureNumber]);
-                    PrintingField(field);
+                    Left(FiguresArray[FigureNumber]);
                 }
 
                 if (_key.Key == ConsoleKey.RightArrow)
                 {
-                    Right(field, FiguresArray[figureNumber]);
-                    PrintingField(field);
+                    Right(FiguresArray[FigureNumber]);
                 }
 
                 if (_key.Key == ConsoleKey.DownArrow)
                 {
-                    Down(field, FiguresArray, ref figureNumber);
+                    Down();
                 }
             }
         }
 
-        static public void ResetFigures(Figures[] FiguresArray)
+        static public void ResetFigures()
         {
             FiguresArray[0] = new FigureI(6, FieldX, FieldY);
             FiguresArray[1] = new FigureL(6, FieldX, FieldY);
@@ -87,7 +74,7 @@ namespace Tetris
             FiguresArray[6] = new FigureZ(6, FieldX, FieldY);
         }
 
-        static public void Rotate(Field field, Figures figure)
+        static public void Rotate(Figures figure)
         {
             FigureTemp figureTmp = new FigureTemp(figure);
             field.DeleteFigureFromField(figure);
@@ -100,7 +87,7 @@ namespace Tetris
             }
         }
 
-        static public void Left(Field field, Figures figure)
+        static public void Left(Figures figure)
         {
             if (field.TestMoveLeft(figure))
             {
@@ -110,7 +97,7 @@ namespace Tetris
             }
         }
 
-        static public void Right(Field field, Figures figure)
+        static public void Right(Figures figure)
         {
             if (field.TestMoveRight(figure))
             {
@@ -120,30 +107,47 @@ namespace Tetris
             }
         }
 
-        static void Down(Field field, Figures[] figuresArray, ref int figureNumber)
+        static void Down(object obj)
         {
             Random rnd = new Random();
-            //do
-            //{
-            if (field.TestBottoming(figuresArray[figureNumber]))
+            if (field.TestBottoming(FiguresArray[FigureNumber]))
             {
-                field.FillFieldWithBlocks(figuresArray[figureNumber]);
-                ResetFigures(figuresArray);
-                figureNumber = rnd.Next(0, figuresArray.Length);
-                field.PasteFigureInField(figuresArray[figureNumber]);
-                //break;
+                field.FillFieldWithBlocks(FiguresArray[FigureNumber]);
+                ResetFigures();
+                FigureNumber = rnd.Next(0, FiguresArray.Length);
+                field.PasteFigureInField(FiguresArray[FigureNumber]);
             }
             else
             {
-                field.DeleteFigureFromField(figuresArray[figureNumber]);
-                figuresArray[figureNumber].Down();
-                field.PasteFigureInField(figuresArray[figureNumber]);
+                field.DeleteFigureFromField(FiguresArray[FigureNumber]);
+                FiguresArray[FigureNumber].Down();
+                field.PasteFigureInField(FiguresArray[FigureNumber]);
             }
-            PrintingField(field);
-            //} while (true);
         }
 
-        static public void PrintingField(Field field)
+        static void Down()
+        {
+            do
+            {
+                Random rnd = new Random();
+                if (field.TestBottoming(FiguresArray[FigureNumber]))
+                {
+                    field.FillFieldWithBlocks(FiguresArray[FigureNumber]);
+                    ResetFigures();
+                    FigureNumber = rnd.Next(0, FiguresArray.Length);
+                    field.PasteFigureInField(FiguresArray[FigureNumber]);
+                    break;
+                }
+                else
+                {
+                    field.DeleteFigureFromField(FiguresArray[FigureNumber]);
+                    FiguresArray[FigureNumber].Down();
+                    field.PasteFigureInField(FiguresArray[FigureNumber]);
+                }
+            } while (true);
+        }
+
+        static public void PrintingField(object obj)
         {
             Console.SetCursorPosition(0, 0);
             Console.Write("┌");
