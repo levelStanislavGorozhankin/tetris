@@ -28,7 +28,7 @@ namespace Tetris
 
         public bool TestRotationInField(Figures figure)
         {
-            for (var i=0; i<figure.X.Length;i++)
+            for (var i = 0; i < figure.X.Length; i++)
             {
                 if (field[figure.X[i], figure.Y[i]] == 1) return false;
             }
@@ -87,6 +87,40 @@ namespace Tetris
                 if (figure.Y[i] == FieldY - 1 || field[figure.X[i], figure.Y[i] + 1] == 1) return false;
             }
             return true;
+        }
+
+        public void ClearLine()
+        {
+            int CountBlocks;
+            for (var x = FieldX - 1; x > 0; x--)
+            {
+                CountBlocks = 0;
+                for (var y = 0; y < FieldY; y++)
+                {
+                    if (field[x, y] == 1) CountBlocks++;
+                }
+                if (CountBlocks == FieldY)
+                {
+                    for (var y = 0; y < FieldY; y++)
+                    {
+                        field[x, y] = 0;
+                    }
+
+                    for (var x1 = FieldX - 1; x1 > 0; x1--)
+                    {
+                        for (var y = 0; y < FieldY; y++)
+                        {
+                            if (field[x1 - 1, y] == 1)
+                            {
+                                field[x1, y] = 1;
+                                field[x1 - 1, y] = 0;
+                            }
+                        }
+                    }
+                    x = FieldX;
+                }
+            }
+            
         }
     }
 }

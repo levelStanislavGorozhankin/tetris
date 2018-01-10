@@ -47,6 +47,7 @@
     <Compile Include="FigureI.cs" />
     <Compile Include="FigureJ.cs" />
     <Compile Include="FigureL.cs" />
+    <Compile Include="FigureMain.cs" />
     <Compile Include="FigureS.cs" />
     <Compile Include="FigureT.cs" />
     <Compile Include="FigureTemp.cs" />
