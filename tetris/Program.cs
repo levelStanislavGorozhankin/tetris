@@ -35,6 +35,7 @@ namespace Tetris
             Game();
 
             // test
+            //TEST 2
         }
 
         static public void Game()
