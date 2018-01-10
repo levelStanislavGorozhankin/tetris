@@ -33,6 +33,8 @@ namespace Tetris
             }
             field.PasteFigureInField(FiguresArray[FigureNumber]);
             Game();
+
+            // test
         }
 
         static public void Game()
@@ -43,7 +45,7 @@ namespace Tetris
             TimerCallback TFD = new TimerCallback(Down);
             TimerCallback TPF = new TimerCallback(PrintingField);
             Timer TimerFigureDown = new Timer(TFD, null, 0, 1000);
-            Timer TimerPrintingField = new Timer(TPF, null, 0, 500);
+            Timer TimerPrintingField = new Timer(TPF, null, 0, 100);
 
             while (true)
             {
