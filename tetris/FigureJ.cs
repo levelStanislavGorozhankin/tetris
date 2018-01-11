@@ -27,7 +27,7 @@ namespace Tetris
         private bool TestRotate()
         {
             //Проверка правого края
-            if (Y[0] == Y[1] && Y[3] == Y[2] - 1 && Y[0] > FieldY - 3 )
+            if (Y[0] == Y[1] && Y[3] == Y[2] - 1 && Y[0] > FieldY - 3)
             {
                 return true;
             }
@@ -38,6 +38,11 @@ namespace Tetris
             }
             //Проверка левого края
             if (Y[3] == Y[2] + 1 && Y[0] == Y[1] && Y[0] < 2)
+            {
+                return true;
+            }
+            //Проверка нижнего края
+            if (X[0] == X[1] && X[3] == X[2] - 1 && X[0] > FieldX - 3)
             {
                 return true;
             }

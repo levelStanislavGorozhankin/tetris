@@ -23,9 +23,9 @@ namespace Tetris
             X[3] = 1;
             Y[3] = startY + 1;
         }
+
         public override void Rotate()
         {
         }
-
     }
 }

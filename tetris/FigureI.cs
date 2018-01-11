@@ -22,7 +22,13 @@ namespace Tetris
 
         private bool TestRotate()
         {
+            //Проверка вращения у верхней границы
             if (Y[0] == Y[1] && Y[0] > FieldY - 4)
+            {
+                return true;
+            }
+            //Проверка вращения у нижней границы
+            if (X[0] == X[1] && X[0]>FieldX-4)
             {
                 return true;
             }

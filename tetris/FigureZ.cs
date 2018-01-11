@@ -42,6 +42,11 @@ namespace Tetris
             {
                 return true;
             }
+            //Проверка нижнего края
+            if (X[0] == X[1] && X[2] == X[3] && X[1] == X[2]+1 && X[1] > FieldX - 3)
+            {
+                return true;
+            }
             return false;
         }
 
