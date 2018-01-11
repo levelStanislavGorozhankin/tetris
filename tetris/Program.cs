@@ -14,6 +14,7 @@ namespace Tetris
     {
         const int FieldX = 24;
         const int FieldY = 15;
+        private static Mutex mut = new Mutex();
         static Figures[] FiguresArray = new Figures[7];
         static Field field = new Field(4, FieldX, FieldY);
         static int FigureNumber;
@@ -33,11 +34,6 @@ namespace Tetris
             }
             field.PasteFigureInField(FiguresArray[FigureNumber]);
             Game();
-
-            // test
-            //TEST 2
-            // test 3
-        
         }
 
         static public void Game()
@@ -52,27 +48,42 @@ namespace Tetris
 
             while (true)
             {
-                // PrintingTechnicalInformation(FiguresArray[FigureNumber]);
+                 
                 _key = Console.ReadKey(true);
 
-                if (_key.Key == ConsoleKey.UpArrow)
+                switch (_key.Key)
                 {
-                    Rotate(FiguresArray[FigureNumber]);
-                }
+                    case ConsoleKey.UpArrow:
+                        {
+                            Rotate(FiguresArray[FigureNumber]);
+                            break;
+                        }
 
-                if (_key.Key == ConsoleKey.LeftArrow)
-                {
-                    Left(FiguresArray[FigureNumber]);
-                }
+                    case ConsoleKey.LeftArrow:
+                        {
+                            Left(FiguresArray[FigureNumber]);
+                            break;
+                        }
 
-                if (_key.Key == ConsoleKey.RightArrow)
-                {
-                    Right(FiguresArray[FigureNumber]);
-                }
+                    case ConsoleKey.RightArrow:
+                        {
+                            Right(FiguresArray[FigureNumber]);
+                            break;
+                        }
 
-                if (_key.Key == ConsoleKey.DownArrow)
-                {
-                    Down();
+                    case ConsoleKey.DownArrow:
+                        {
+                            Down();
+                            break;
+                        }
+                    case ConsoleKey.Escape:
+                        {
+                            TimerFigureDown.Dispose();
+                            TimerPrintingField.Dispose();
+                            Console.SetCursorPosition(0,26);
+                            Environment.Exit(0);
+                            break;
+                        }
                 }
             }
         }
@@ -165,6 +176,8 @@ namespace Tetris
 
         static public void PrintingField(object obj)
         {
+            mut.WaitOne();
+            PrintingTechnicalInformation(FiguresArray[FigureNumber]);
             Console.SetCursorPosition(0, 0);
             Console.Write("┌");
             for (var i = 0; i < FieldY * 2 - 1; i++)
@@ -208,25 +221,26 @@ namespace Tetris
                 Console.Write("─");
             }
             Console.Write("┘");
+            mut.ReleaseMutex();
         }
 
         static void PrintingTechnicalInformation(Figures figure)
         {
-            Console.SetCursorPosition(50, 0);
+            Console.SetCursorPosition(0, 26);
             Console.Write("                                                       ");
-            Console.SetCursorPosition(50, 1);
+            Console.SetCursorPosition(0, 27);
             Console.WriteLine("                                                       ");
-            Console.SetCursorPosition(50, 0);
+            Console.SetCursorPosition(0, 26);
             for (var i = 0; i < figure.X.Length; i++)
             {
                 Console.Write(figure.X[i] + " ");
             }
-            Console.SetCursorPosition(50, 1);
+            Console.SetCursorPosition(0, 27);
             for (var i = 0; i < figure.Y.Length; i++)
             {
                 Console.Write(figure.Y[i] + " ");
             }
-            Console.SetCursorPosition(50, 3);
+            Console.SetCursorPosition(0, 28);
             Console.Write(figure);
             Console.SetCursorPosition(0, 0);
         }
