@@ -43,7 +43,7 @@ namespace Tetris
 
             TimerCallback TFD = new TimerCallback(Down);
             TimerCallback TPF = new TimerCallback(PrintingField);
-            //Timer TimerFigureDown = new Timer(TFD, null, 0, 1000);
+            Timer TimerFigureDown = new Timer(TFD, null, 0, 1000);
             Timer TimerPrintingField = new Timer(TPF, null, 0, 100);
 
             while (true)
@@ -78,7 +78,7 @@ namespace Tetris
                         }
                     case ConsoleKey.Escape:
                         {
-                            //TimerFigureDown.Dispose();
+                            TimerFigureDown.Dispose();
                             TimerPrintingField.Dispose();
                             Console.SetCursorPosition(0,26);
                             Environment.Exit(0);
@@ -153,9 +153,9 @@ namespace Tetris
 
         static void Down()
         {
-            //do
-            //{
-            //    Thread.Sleep(30);
+            do
+            {
+                Thread.Sleep(30);
                 Random rnd = new Random();
                 if (field.TestBottoming(FiguresArray[FigureNumber]))
                 {
@@ -164,7 +164,7 @@ namespace Tetris
                     ResetFigures();
                     FigureNumber = rnd.Next(0, FiguresArray.Length);
                     field.PasteFigureInField(FiguresArray[FigureNumber]);
-                    //break;
+                    break;
                 }
                 else
                 {
@@ -172,7 +172,7 @@ namespace Tetris
                     FiguresArray[FigureNumber].Down();
                     field.PasteFigureInField(FiguresArray[FigureNumber]);
                 }
-            //} while (true);
+            } while (true);
         }
 
         static public void PrintingField(object obj)
