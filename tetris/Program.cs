@@ -36,6 +36,7 @@ namespace Tetris
             Game();
 
             //test 12.01.2018
+            //test 12.01.2018 - 2
         }
 
         static public void Game()
