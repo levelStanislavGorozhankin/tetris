@@ -34,6 +34,8 @@ namespace Tetris
             //}
             field.PasteFigureInField(FiguresArray[FigureNumber]);
             Game();
+
+            //test 12.01.2018
         }
 
         static public void Game()
