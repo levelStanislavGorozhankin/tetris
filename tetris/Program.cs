@@ -23,7 +23,7 @@ namespace Tetris
         {
             Random rnd = new Random();
             FigureNumber = rnd.Next(0, FiguresArray.Length);
-            FigureNumber = 6;
+        //    FigureNumber = 6;
             ResetFigures();
             //for (var j = 23; j > 17; j--)
             //{
@@ -44,6 +44,7 @@ namespace Tetris
 
         static public void Game()
         {
+            
             ConsoleKeyInfo _key;
             Console.CursorVisible = false;
 

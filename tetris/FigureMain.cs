@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    class Figures
+    abstract class Figures
     {
         public int[] X;
         public int[] Y;
@@ -19,10 +19,7 @@ namespace Tetris
             FieldY = fieldY;
         }
 
-        public virtual void Rotate()
-        {
-
-        }
+        public abstract void Rotate();
 
         public void Right()
         {
