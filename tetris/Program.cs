@@ -35,14 +35,6 @@ namespace Tetris
             //}
             field.PasteFigureInField(FiguresArray[FigureNumber]);
             Game();
-
-            //test 12.01.2018
-            //test 12.01.2018 - 2
-            //test 12.01.2018 - 3
-            //test 12.01.2018 - 4
-            //test 12.01.2018 - 5
-            //test 12.01.2018 - 6
-			//test 12.01.2018 - 7
         }
 
         static public void Game()
@@ -50,17 +42,18 @@ namespace Tetris
             
             ConsoleKeyInfo _key;
             Console.CursorVisible = false;
-
+            int DelayDownInMs = 1000;
             TimerCallback TFD = new TimerCallback(Down);
             TimerCallback TPF = new TimerCallback(PrintingField);
             Timer TimerFigureDown = new Timer(TFD, null, 0, 1000);
             Timer TimerPrintingField = new Timer(TPF, null, 0, 100);
+            int PreviousLevel = field.Level;
 
             while (true)
             {
                  
                 _key = Console.ReadKey(true);
-
+                
                 switch (_key.Key)
                 {
                     case ConsoleKey.UpArrow:
@@ -88,12 +81,20 @@ namespace Tetris
                         }
                     case ConsoleKey.Escape:
                         {
-                            TimerFigureDown.Dispose();
-                            TimerPrintingField.Dispose();
                             Console.SetCursorPosition(0,26);
                             Environment.Exit(0);
                             break;
                         }
+                }
+
+                if (PreviousLevel != field.Level)
+                {
+                    PreviousLevel = field.Level;
+                    if (DelayDownInMs > 50)
+                    {
+                        DelayDownInMs = DelayDownInMs - 50;
+                        TimerFigureDown.Change(0, DelayDownInMs);
+                    }
                 }
             }
         }
@@ -193,7 +194,7 @@ namespace Tetris
             {
                 Console.Write("─");
             }
-            Console.WriteLine("┐    Score: " + field.Score);
+            Console.WriteLine("┐");
             for (var x = 0; x < FieldX; x++)
             {
                 Console.Write("│");
@@ -230,6 +231,10 @@ namespace Tetris
                 Console.Write("─");
             }
             Console.Write("┘");
+            Console.SetCursorPosition(35, 1);
+            Console.WriteLine("Level: " + field.Level);
+            Console.SetCursorPosition(35, 2);
+            Console.WriteLine("Score: " + field.Score);
             mut.ReleaseMutex();
         }
 

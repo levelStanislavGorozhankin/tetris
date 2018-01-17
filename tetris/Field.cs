@@ -12,9 +12,13 @@ namespace Tetris
         private int FieldX;
         private int FieldY;
         public int[,] field;
+        private int CountLines;
+        public int Level;
 
         public Field(int startX, int fieldX, int fieldY)
         {
+            CountLines = 0;
+            Level = 1;
             FieldX = fieldX;
             FieldY = fieldY;
             field = new int[FieldX, FieldY];
@@ -92,7 +96,7 @@ namespace Tetris
 
         public void ClearLine()
         {
-            int CountLines = 0;
+            int CountLinesScore = 0;
             int CountBlocks;
             for (var x = FieldX - 1; x > 0; x--)
             {
@@ -106,6 +110,7 @@ namespace Tetris
                 if (CountBlocks == FieldY)
                 {
                     CountLines++;
+                    CountLinesScore++;
                     for (var y = 0; y < FieldY; y++)
                     {
                         field[x, y] = 0;
@@ -123,10 +128,14 @@ namespace Tetris
                         }
                     }
                     x = FieldX;
+                    if (CountLines == 1)
+                    {
+                        Level++;
+                        CountLines = 0;
+                    }
                 }
             }
-            Score = Score + 50 * CountLines * 4;
-            
+            Score = Score + 50 * CountLinesScore * 4;
         }
     }
 }
