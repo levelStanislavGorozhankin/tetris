@@ -106,7 +106,7 @@ namespace Tetris
                         field[x, y] = 0;
                     }
 
-                    for (var x1 = FieldX - 1; x1 > 0; x1--)
+                    for (var x1 = x; x1 > 0; x1--)
                     {
                         for (var y = 0; y < FieldY; y++)
                         {
