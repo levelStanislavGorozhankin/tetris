@@ -8,6 +8,7 @@ namespace Tetris
 {
     class Field
     {
+        public int Score;
         private int FieldX;
         private int FieldY;
         public int[,] field;
@@ -91,16 +92,20 @@ namespace Tetris
 
         public void ClearLine()
         {
+            int CountLines = 0;
             int CountBlocks;
             for (var x = FieldX - 1; x > 0; x--)
             {
                 CountBlocks = 0;
+
                 for (var y = 0; y < FieldY; y++)
                 {
                     if (field[x, y] == 1) CountBlocks++;
                 }
+
                 if (CountBlocks == FieldY)
                 {
+                    CountLines++;
                     for (var y = 0; y < FieldY; y++)
                     {
                         field[x, y] = 0;
@@ -120,6 +125,7 @@ namespace Tetris
                     x = FieldX;
                 }
             }
+            Score = Score + 50 * CountLines * 4;
             
         }
     }

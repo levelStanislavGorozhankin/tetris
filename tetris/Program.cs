@@ -14,6 +14,7 @@ namespace Tetris
     {
         const int FieldX = 24;
         const int FieldY = 15;
+        static Random rnd = new Random();
         private static Mutex mut = new Mutex();
         static Figures[] FiguresArray = new Figures[7];
         static Field field = new Field(4, FieldX, FieldY);
@@ -21,7 +22,7 @@ namespace Tetris
 
         public static void Main()
         {
-            Random rnd = new Random();
+            
             FigureNumber = rnd.Next(0, FiguresArray.Length);
         //    FigureNumber = 6;
             ResetFigures();
@@ -143,7 +144,6 @@ namespace Tetris
 
         static void Down(object obj)
         {
-            Random rnd = new Random();
             if (field.TestBottoming(FiguresArray[FigureNumber]))
             {
                 field.FillFieldWithBlocks(FiguresArray[FigureNumber]);
@@ -165,7 +165,6 @@ namespace Tetris
             do
             {
                 Thread.Sleep(30);
-                Random rnd = new Random();
                 if (field.TestBottoming(FiguresArray[FigureNumber]))
                 {
                     field.FillFieldWithBlocks(FiguresArray[FigureNumber]);
@@ -194,7 +193,7 @@ namespace Tetris
             {
                 Console.Write("─");
             }
-            Console.WriteLine("┐");
+            Console.WriteLine("┐    Score: " + field.Score);
             for (var x = 0; x < FieldX; x++)
             {
                 Console.Write("│");
